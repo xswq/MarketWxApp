@@ -1,7 +1,7 @@
 /* pages/home/home.wxss */
 
 .hot-card {
-  position: relative;
+  position: relative; /*给子元素绝对定位的能力*/
   margin: 32rpx 52rpx 0;
   height: 326rpx;
   background: #FFFFFF;
