@@ -28,6 +28,30 @@ var config = {
 
         // 拉取商品详情
         productDetail: `${host}/weapp/product/`,
+
+        // 拉取用户信息
+        user: `${host}/weapp/user`,
+
+        // 创建订单
+        addOrder: `${host}/weapp/order`,
+
+        // 获取已购买订单列表
+        orderList: `${host}/weapp/order`,
+
+        // 添加到购物车商品列表
+        addTrolley: `${host}/weapp/trolley`,
+
+        // 获取购物车商品列表
+        trolleyList: `${host}/weapp/trolley`,
+
+        // 更新购物车商品列表
+        updateTrolley: `${host}/weapp/trolley`,
+
+        // 添加评论
+        addComment: `${host}/weapp/comment`,
+
+        // 获取评论列表
+        commentList: `${host}/weapp/comment`,
     }
 };
 

@@ -1,71 +1,62 @@
-// pages/order/order.js
 const qcloud = require('../../vendor/wafer2-client-sdk/index')
 const config = require('../../config')
-const app = getApp()
-
+const _ = require('../../utils/util')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: null,
-    orderList: [
-    ], // 订单列表
-
+    commentList: [], // 评论列表
   },
 
-  getOrder() {
-    wx.showLoading({
-      title: '刷新订单数据...',
+  previewImg(event) {
+    let target = event.currentTarget
+    let src = target.dataset.src
+    let urls = target.dataset.urls
+
+    wx.previewImage({
+      current: src,
+      urls: urls
     })
+  },
 
+  getCommentList(id) {
     qcloud.request({
-      url: config.service.orderList,
-      login: true,
+      url: config.service.commentList,
+      data: {
+        product_id: id
+      },
       success: result => {
-        wx.hideLoading()
-
         let data = result.data
-        console.log(data)
         if (!data.code) {
           this.setData({
-            orderList: data.data
-          })
-        } else {
-          wx.showToast({
-            icon: 'none',
-            title: '刷新订单数据失败',
+            commentList: data.data.map(item => {
+              let itemDate = new Date(item.create_time)
+              item.createTime = _.formatTime(itemDate)
+              item.images = item.images ? item.images.split(';;') : []
+              return item
+            })
           })
         }
       },
-      fail: () => {
-        wx.hideLoading()
-
-        wx.showToast({
-          icon: 'none',
-          title: '刷新订单数据失败',
-        })
-      }
     })
-  },
-
-  onTapLogin() {
-    app.login({
-      success: ({ userInfo }) => {
-        this.setData({
-          userInfo
-        })
-      }
-    }),
-    this.getOrder()
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let product = {
+      id: options.id,
+      name: options.name,
+      price: options.price,
+      image: options.image
+    }
+    this.setData({
+      product: product
+    })
+    this.getCommentList(product.id)
   },
 
   /**
@@ -79,14 +70,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    app.checkSession({
-      success: ({ userInfo }) => {
-        this.setData({
-          userInfo
-        })
-        this.getOrder()
-      }
-    })
+
   },
 
   /**

@@ -2,11 +2,16 @@ const CONF = {
     port: '5757',
     rootPathname: '',
 
+    qcloudAppId:'需自填',
+    qcloudSecretId:'需自填',
+    qcloudSecretKey:'需自填',
+  
+
     // 微信小程序 App ID
-    appId: 'wxc740ce5213374f20',
+    appId: '需自填',
 
     // 微信小程序 App Secret
-    appSecret: '',
+    appSecret: '需自填',
 
     // 是否使用腾讯云代理登录小程序
     useQcloudLogin: true,
@@ -21,7 +26,7 @@ const CONF = {
         port: 3306,
         user: 'root',
         db: 'cAuth',
-        pass: 'wxc740ce5213374f20',
+        pass: '需自填',
         char: 'utf8mb4'
     },
 
@@ -30,9 +35,9 @@ const CONF = {
          * 地区简称
          * @查看 https://cloud.tencent.com/document/product/436/6224
          */
-        region: 'ap-guangzhou',
+        region: 'ap-beijing',
         // Bucket 名称
-        fileBucket: 'qcloudtest',
+        fileBucket: 'qcloudMarket',
         // 文件夹
         uploadFolder: ''
     },

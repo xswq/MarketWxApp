@@ -9,6 +9,8 @@ Page({
    */
   data: {
     product: {},
+    haveComment: true
+
   },
 
   getProduct(id) {
@@ -42,6 +44,97 @@ Page({
         }, 2000)
       }
     })
+  },
+
+  buy() {
+    wx.showLoading({
+      title: '商品购买中...',
+    })
+
+    let product = Object.assign({
+      count: 1
+    }, this.data.product)
+
+    qcloud.request({
+      url: config.service.addOrder,
+      login: true,
+      method: 'POST',
+      data: {
+        list: [product],
+        isInstantBuy: true
+      },
+      success: result => {
+        wx.hideLoading()
+
+        let data = result.data
+
+        if (!data.code) {
+          wx.showToast({
+            title: '商品购买成功',
+          })
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '商品购买失败',
+          })
+        }
+      },
+      fail: () => {
+        wx.hideLoading()
+
+        wx.showToast({
+          icon: 'none',
+          title: '商品购买失败',
+        })
+      }
+    })
+  },
+
+  addToTrolley() {
+    wx.showLoading({
+      title: '正在添加到购物车...',
+    })
+
+    qcloud.request({
+      url: config.service.addTrolley,
+      login: true,
+      method: 'PUT',
+      data: this.data.product,
+      success: result => {
+        wx.hideLoading()
+
+        let data = result.data
+
+        if (!data.code) {
+          wx.showToast({
+            title: '已添加到购物车',
+          })
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '添加到购物车失败',
+          })
+        }
+      },
+      fail: () => {
+        wx.hideLoading()
+
+        wx.showToast({
+          icon: 'none',
+          title: '添加到购物车失败',
+        })
+      }
+    })
+
+  },
+
+  onTapCommentEntry() {
+    let product = this.data.product
+    if (this.data.haveComment) {
+      wx.navigateTo({
+        url: `/pages/comment/comment?id=${product.id}&price=${product.price}&name=${product.name}&image=${product.image}`
+      })
+    }
   },
 
   /**
