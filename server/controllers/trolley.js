@@ -1,4 +1,4 @@
-const DB = require('../utils/db');
+  const DB = require('../utils/db');
 
 module.exports = {
   /**
